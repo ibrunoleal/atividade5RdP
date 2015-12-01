@@ -22,7 +22,7 @@ public class Exercicio1 {
 			System.out.println(f.getData_A_testing_output().getEntry(i) + " -- " + yPreditos.getEntry(i));
 		}
 		
-		double mse = f.funcao_MSE(yPreditos, f.getData_A_testing_output());
+		double mse = f.funcao_MSE(f.getData_A_testing_output(), yPreditos);
 		System.out.println("\nMean Squared Error(MSE):");
 		System.out.println(mse);
 	}

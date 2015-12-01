@@ -2,7 +2,6 @@ package br.ufc.arida.bcl.rdp20152.atv5.ex1;
 
 import org.apache.commons.math3.linear.ArrayRealVector;
 import org.apache.commons.math3.linear.RealVector;
-import org.apache.commons.math3.stat.regression.SimpleRegression;
 
 import br.ufc.arida.bcl.rdp20152.atv5.file.FileHandler;
 
@@ -62,11 +61,12 @@ public class Exercicio1Functions {
 	}
 	
 	public double funcao_MSE(RealVector yPreditos, RealVector yOutput) {
-		SimpleRegression simpleRegression = new SimpleRegression();
-		for (int i = 0; i < yPreditos.getDimension(); i++) {
-			simpleRegression.addData(yPreditos.getEntry(i), yOutput.getEntry(i));
+		int n = yPreditos.getDimension();
+		double sum = 0.0;
+		for (int i = 0; i < n; i++) {
+			sum += Math.pow(yPreditos.getEntry(i) - yOutput.getEntry(i), 2);
 		}
-		return simpleRegression.getMeanSquareError();
+		return sum / n;
 	}
 	
 }

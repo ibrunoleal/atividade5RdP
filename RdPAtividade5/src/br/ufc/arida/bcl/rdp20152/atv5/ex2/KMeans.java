@@ -1,12 +1,11 @@
 package br.ufc.arida.bcl.rdp20152.atv5.ex2;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 
 import weka.clusterers.SimpleKMeans;
+import weka.core.Instance;
 import weka.core.Instances;
 import weka.core.converters.CSVLoader;
 
@@ -14,11 +13,28 @@ public class KMeans {
 	
 	private Instances instanciasDeTreino;
 	
-	public KMeans() {
+	private SimpleKMeans kMeans;
+	
+	public KMeans(String nomeDoArquivoCSV, int numClusters) {
 		instanciasDeTreino = null;
+		kMeans = new SimpleKMeans();
+		carregarDados(nomeDoArquivoCSV);
+		executarSimpleKMeans(numClusters);
 	}
 	
-	public void carregarDados(String nomeDoArquivo) {
+	public double[] getCentroids() {
+		Instances instances = kMeans.getClusterCentroids();
+		int n = instances.numInstances();
+		double[] centroids = new double[n];
+		for (int i = 0; i < n; i++) {
+			Instance inst = instances.instance(i);
+			double valor = inst.value(0);
+			centroids[i] = valor;
+		}
+		return centroids;
+	}
+	
+	private void carregarDados(String nomeDoArquivo) {
 		try {
 			CSVLoader loader = new CSVLoader();
 			String[] options = new String[1]; 
@@ -38,20 +54,13 @@ public class KMeans {
 		}
 	}
 	
-	public void executarSimpleKMeans(int numClusters) {
+	private void executarSimpleKMeans(int numClusters) {
 		if (instanciasDeTreino != null) {
-			SimpleKMeans kMeans = new SimpleKMeans();
-	        kMeans.setSeed(10);
-	        kMeans.setPreserveInstancesOrder(true);
-	        try {
+			kMeans.setSeed(10);
+			kMeans.setPreserveInstancesOrder(true);
+			try {
 				kMeans.setNumClusters(numClusters);
 				kMeans.buildClusterer(instanciasDeTreino);
-				 int[] assignments = kMeans.getAssignments();
-			     int i = 0;
-			     for (int clusterNum : assignments) {
-			    	 System.out.printf("Instance %d -> Cluster %d", i, clusterNum);
-			         i++;
-			     }
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -60,8 +69,6 @@ public class KMeans {
 			System.out.println("Erro: instancias de treino não carregadas!");
 		}
 		
-        
-       
 	}
 
 }

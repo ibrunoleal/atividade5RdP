@@ -96,12 +96,11 @@ public class Exercicio2Functions {
 		return PHI;
 	}
 
-	public RealVector w(RealMatrix PHI, RealVector t) {
+	public RealVector w(RealMatrix PHI, RealVector t, double lambda) {
 		
 		RealMatrix PHI_t = PHI.transpose();
 		RealMatrix A = PHI_t.multiply(PHI);
 		
-		double lambda = 0.5;
 		int dimensao = A.getRowDimension();
 		RealMatrix I = MatrixUtils.createRealIdentityMatrix(dimensao);
 		RealMatrix Ilambda = I.scalarMultiply(lambda);

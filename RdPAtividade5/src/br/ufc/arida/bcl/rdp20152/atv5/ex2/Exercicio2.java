@@ -21,7 +21,7 @@ public class Exercicio2 {
 		
 		RealVector t = f.getData_A_learning_output();
 		
-		RealVector w = f.w(PHI, t);
+		RealVector w = f.w(PHI, t, 0.1);
 		System.out.println("w: " + w);
 		
 		RealVector ysPreditos = f.construirYPreditos(f.getData_A_testing_input(), w, centroids);

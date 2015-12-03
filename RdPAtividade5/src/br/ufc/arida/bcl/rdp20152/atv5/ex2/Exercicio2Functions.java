@@ -60,14 +60,18 @@ public class Exercicio2Functions {
 		return Math.exp(-1 * (Math.pow( Math.abs(x - centroid), 2) / 2));
 	}
 	
-	public RealMatrix construirPHI(int numClusters) {
-		RealMatrix PHI = new Array2DRowRealMatrix(getData_A_learning_input().getDimension(), numClusters);
-		           
+	public RealVector construirCentroids(int numClusters) {
 		KMeans kmeans = new KMeans(DATA_A_LEARNING_INPUT, numClusters);
 		double[] centroids = kmeans.getCentroids();
 		RealVector c = new ArrayRealVector(centroids);
-		for (int j = 0; j < numClusters; j++) {
-			double centroid = c.getEntry(j);
+		return c;
+	}
+	
+	public RealMatrix construirPHI(RealVector centroids) {
+		RealMatrix PHI = new Array2DRowRealMatrix(getData_A_learning_input().getDimension(), centroids.getDimension());
+		          
+		for (int j = 0; j < centroids.getDimension(); j++) {
+			double centroid = centroids.getEntry(j);
 			for (int i = 0; i < getData_A_learning_input().getDimension(); i++) {
 				double phi_i = funcaoDeAtivacao(getData_A_learning_input().getEntry(i), centroid);
 				PHI.setEntry(i, j, phi_i);
@@ -76,7 +80,6 @@ public class Exercicio2Functions {
 		
 		return PHI;
 	}
-	
 
 	public RealVector w(RealMatrix PHI, RealVector t) {
 		
@@ -94,6 +97,33 @@ public class Exercicio2Functions {
 		RealMatrix B = A_I.multiply(PHI_t);
 		RealVector r = B.operate(t);
 		return r;
+	}
+	
+	public double funcaoY(double x, RealVector w, RealVector centroids) {
+		double sum = 0;
+		for (int i = 0; i < centroids.getDimension(); i++) {
+			sum += funcaoDeAtivacao(x, centroids.getEntry(i)) * w.getEntry(i);
+		}
+		return sum;
+	}
+	
+	public RealVector construirYPreditos(RealVector dataInput, RealVector w, RealVector centroids) {
+		RealVector vy = new ArrayRealVector(dataInput.getDimension());
+		for (int i = 0; i < getData_A_testing_input().getDimension(); i++) {
+			double xi = getData_A_testing_input().getEntry(i);
+			double yi = funcaoY(xi, w, centroids);
+			vy.setEntry(i, yi);
+		}
+		return vy;
+	}
+	
+	public double funcao_MSE(RealVector yPreditos, RealVector yOutput) {
+		int n = yPreditos.getDimension();
+		double sum = 0.0;
+		for (int i = 0; i < n; i++) {
+			sum += Math.pow(yPreditos.getEntry(i) - yOutput.getEntry(i), 2);
+		}
+		return sum / n;
 	}
 	
 }

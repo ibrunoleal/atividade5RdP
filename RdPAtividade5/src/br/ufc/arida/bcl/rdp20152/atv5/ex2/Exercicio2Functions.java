@@ -55,9 +55,24 @@ public class Exercicio2Functions {
 	public RealVector getData_A_testing_output() {
 		return data_A_testing_output;
 	}
-
-	public double funcaoDeAtivacao(double x, double centroid) {
+	
+	public double funcaoG(double x, double centroid) {
 		return Math.exp(-1 * (Math.pow( Math.abs(x - centroid), 2) / 2));
+	}
+
+	public double funcaoGSomatorio(double x, RealVector centroids) {
+		double sum = 0;
+		
+		for (int i = 0; i < centroids.getDimension(); i++) {
+			double centroid = centroids.getEntry(i);
+			sum += funcaoG(x, centroid);
+		}
+		
+		return sum;
+	}
+	
+	public double funcaoDeAtivacao(double x, double centroid, RealVector centroids) {
+		return funcaoG(x, centroid) / funcaoGSomatorio(x, centroids);
 	}
 	
 	public RealVector construirCentroids(int numClusters) {
@@ -73,7 +88,7 @@ public class Exercicio2Functions {
 		for (int j = 0; j < centroids.getDimension(); j++) {
 			double centroid = centroids.getEntry(j);
 			for (int i = 0; i < getData_A_learning_input().getDimension(); i++) {
-				double phi_i = funcaoDeAtivacao(getData_A_learning_input().getEntry(i), centroid);
+				double phi_i = funcaoDeAtivacao(getData_A_learning_input().getEntry(i), centroid, centroids);
 				PHI.setEntry(i, j, phi_i);
 			}
 		}
@@ -102,7 +117,7 @@ public class Exercicio2Functions {
 	public double funcaoY(double x, RealVector w, RealVector centroids) {
 		double sum = 0;
 		for (int i = 0; i < centroids.getDimension(); i++) {
-			sum += funcaoDeAtivacao(x, centroids.getEntry(i)) * w.getEntry(i);
+			sum += funcaoDeAtivacao(x, centroids.getEntry(i), centroids) * w.getEntry(i);
 		}
 		return sum;
 	}

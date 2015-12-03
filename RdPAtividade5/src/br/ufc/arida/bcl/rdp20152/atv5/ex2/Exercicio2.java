@@ -13,7 +13,7 @@ public class Exercicio2 {
 		/*
 		 * q estipulado de acordo com o exercício 2.1
 		 */
-		int q = 10;
+		int q = 100;
 		
 		RealVector centroids = f.construirCentroids(q);
 		

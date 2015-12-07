@@ -29,6 +29,20 @@ public class GraficoDePontos2D extends Plot2DPanel{
 		addScatterPlot(label, x, y);
 	}
 	
+	public void adicionarLinha(String label, double[] x, double[] y) {
+		addLinePlot(label, x, y);
+	}
+	
+	public void adicionarLinha(String label, List<Ponto2D> pontosDaLinha) {
+		double[] x = new double[pontosDaLinha.size()];
+		double[] y = new double[pontosDaLinha.size()];
+		for (int i = 0; i < pontosDaLinha.size(); i++) {
+			x[i] = pontosDaLinha.get(i).getX();
+			y[i] = pontosDaLinha.get(i).getY();
+		}
+		addLinePlot(label, x, y);
+	}
+	
 	public void exibirGrafico() {
 		JFrame frame = new JFrame(tituloDaAplicacao);
 		frame.setSize(1024, 768);

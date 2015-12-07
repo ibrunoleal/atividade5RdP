@@ -25,7 +25,7 @@ public class Exercicio1 {
 
 		List<Ponto2D> pontos = new ArrayList<Ponto2D>();
 		List<Ponto2D> pontosReta = new ArrayList<Ponto2D>();
-		System.out.println("Valor Label(t) -- Valor Predito");
+		//System.out.println("Valor Label(t) -- Valor Predito");
 		for (int i = 0; i < yPreditos.getDimension(); i++) {
 			Ponto2D pi = new Ponto2D(f.getData_A_testing_input().getEntry(i), f.getData_A_testing_output().getEntry(i));
 			pontos.add(pi);

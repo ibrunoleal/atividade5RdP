@@ -13,16 +13,25 @@ public class Exercicio2 {
 		/*
 		 * q estipulado de acordo com o exercício 2.1
 		 */
-		int q = 100;
+		System.out.println("Exercicio 2.1)");
+		int q = 6;
+		System.out.println("valor de q(numero de basis functions): " + q);
 		
+		System.out.println("\nExercicio 2.2)");
 		RealVector centroids = f.construirCentroids(q);
+		System.out.println("Valor dos centroids (utilizado o K-Means): " + centroids);
+		
+		System.out.println("\nExercicio 2.3, 2.4 e 2.5)");
 		
 		Matriz PHI = new Matriz(f.construirPHI(centroids));
+		System.out.println("Matriz PHI:\n" + PHI.toTexString());
 		
+		
+		System.out.println("\nExercicio 2.6)");
 		RealVector t = f.getData_A_learning_output();
-		
-		RealVector w = f.w(PHI, t, 0.1);
-		System.out.println("w: " + w);
+		double lambda = 0.1;
+		RealVector w = f.w(PHI, t, lambda);
+		System.out.println("w(lambda = " + lambda + "): " + w);
 		
 		RealVector ysPreditos = f.construirYPreditos(f.getData_A_testing_input(), w, centroids);
 		System.out.println("ysPreditos: " + ysPreditos);
